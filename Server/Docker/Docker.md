@@ -11,30 +11,23 @@ nano Dockerfile
 Dockerfile
 
 ```plaintext
-# Use the latest Debian base image
-FROM debian:latest
+FROM ubuntu:latest
 
-# Set environment variables for non-interactive mode
-# ENV DEBIAN_FRONTEND=noninteractive
+# Instalasi OpenSSH server
+RUN apt-get update && apt-get install -y openssh-server
 
-# Update the package list, install OpenSSH server, and clear the cache
-RUN apt-get update && \
-    apt-get install -y openssh-server python3 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN mkdir /var/run/sshd
 
-# Create a directory for the SSH daemon and create a default SSH configuration
-RUN mkdir -p /var/run/sshd
+# Change 'password' for your password
+RUN echo 'root:password' | chpasswd
 
-# Set root password (replace 'your_password' with the desired password)
-RUN echo 'root:your_password' | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Expose port 22 for SSH
+RUN sed -i 's/#GatewayPorts no/GatewayPorts yes/' /etc/ssh/sshd_config
+
 EXPOSE 22
 
-# Default command to run SSH daemon and bash
-CMD ["/bin/bash"]
-
+CMD ["/usr/sbin/sshd", "-D"]
 ```
 
 ![1722758828042](image/Docker/1722758828042.png)
@@ -106,29 +99,24 @@ nano Dockerfile
 Dockerfile
 
 ```plaintext
-# Use the latest Debian base image
-FROM debian:latest
+FROM ubuntu:latest
 
-# Set environment variables for non-interactive mode
-# ENV DEBIAN_FRONTEND=noninteractive
+# Instalasi OpenSSH server
+RUN apt-get update && apt-get install -y openssh-server
 
-# Update the package list, install OpenSSH server, and clear the cache
-RUN apt-get update && \
-    apt-get install -y openssh-server python3 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN mkdir /var/run/sshd
 
-# Create a directory for the SSH daemon and create a default SSH configuration
-RUN mkdir -p /var/run/sshd
+# Change 'password' for your password
+RUN echo 'root:password' | chpasswd
 
-# Set root password (replace 'your_password' with the desired password)
-RUN echo 'root:your_password' | chpasswd
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Expose port 22 for SSH
+RUN sed -i 's/#GatewayPorts no/GatewayPorts yes/' /etc/ssh/sshd_config
+
 EXPOSE 22
 
-# Default command to run SSH daemon and bash
-CMD ["/bin/bash"]
+CMD ["/usr/sbin/sshd", "-D"]
+
 ```
 
 Docker Command
