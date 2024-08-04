@@ -88,6 +88,8 @@ Docker Run
 # docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 1.0>" <image_name>
 
 docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="1.0" sshserver
+# If already in use
+# docker remove sshcontainer
 ```
 
 ![1722759752566](image/Docker/1722759752566.png)
@@ -211,6 +213,8 @@ Docker Run
 # docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 1.0>" <image_name>
 
 docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="1.0" sshserver
+# If already in use
+# docker remove sshcontainer
 ```
 
 ## Access Docker Shell
@@ -218,5 +222,7 @@ docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="
 ```bash
 docker ps
 # docker exec -it <container_id_or_name> /bin/bash
-docker exec -it sshserver /bin/bash
+docker exec -it sshcontainer /bin/bash
 ```
+
+![1722761504490](image/Docker/1722761504490.png)
