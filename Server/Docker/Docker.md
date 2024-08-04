@@ -32,8 +32,6 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-
-
 ![1722762255763](image/Docker/1722762255763.png)
 
 Build, Enter directory docker
@@ -127,6 +125,8 @@ cd sshserver
 nano Dockerfile
 ```
 
+![1722763666315](image/Docker/1722763666315.png)
+
 Dockerfile
 
 ```plaintext
@@ -150,15 +150,22 @@ CMD ["/usr/sbin/sshd", "-D"]
 
 ```
 
+![1722763681946](image/Docker/1722763681946.png)
+
 Docker Command
 
 ```bash
-docker trust key generate <your_username>
-docker trust signer add --key <your_username>.pub <your_username> <your_username>/<your_repository>
+# docker trust key generate <your_username>
+docker trust key generate afrzlfa
+# docker trust signer add --key <your_username>.pub <your_username> <your_username>/<your_repository>:<your_tag>
+docker trust signer add --key afrzlfa.pub afrzlfa afrzlfa/sshserver:latest
 # docker trust key load <your_username>.pub --name <your_username>
 # docker trust signer remove <your_username> <your_repository>
-docker trust inspect --pretty <your_repository>
+# docker trust inspect --pretty <your_repository>
+docker trust inspect --pretty afrzlfa/sshserver:latest
 ```
+
+![1722763948189](image/Docker/1722763948189.png)
 
 Setting Environment Build
 
@@ -169,8 +176,11 @@ export DOCKER_CONTENT_TRUST=1
 Build
 
 ```bash
-docker build -t <your_username>/<your_repository>:<your_tag> .
+# docker build -t <your_username>/<your_repository>:<your_tag> .
+docker build -t afrzlfa/sshserver:latest .
 ```
+
+![1722764051498](image/Docker/1722764051498.png)
 
 Push docker
 
@@ -178,17 +188,22 @@ Push docker
 docker login
 
 # docker tag <your_image>:<your_tag> <your_username>/<your_repository>:<your_tag>
-docker tag sshserver:latest afrzlfa/sshserver:latest
+docker tag afrzlfa/sshserver:latest afrzlfa/sshserver:latest
 
 # docker push <your_username>/<your_repository>:<your_tag>
 docker push afrzlfa/sshserver:latest
+
 ```
+
+![1722764205762](image/Docker/1722764205762.png)
 
 Pull Docker
 
 ```bash
-docker images
-docker rmi -f <image-id>
+# If images already exist
+# docker images
+# docker rmi <image_id_or_name>
+# docker prune
 
 docker login
 
@@ -197,14 +212,19 @@ docker pull afrzlfa/sshserver:latest
 
 ```
 
+![1722764589136](image/Docker/1722764589136.png)
+
 Environment
 
 ```bash
 # For Check Repository Key
+# docker images
 # docker trust inspect --pretty <your_repository>
 export ENCODED_PASSPHRASE=$(cat ~/.docker/trust/private/<your_repository_key>.key | base64)
 export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE=$ENCODED_PASSPHRASE
 ```
+
+![1722764833275](image/Docker/1722764833275.png)
 
 Docker Push
 
@@ -219,12 +239,15 @@ docker push afrzlfa/sshserver:latest
 
 ```
 
+
 Docker Pull
 
 ```bash
 docker login
-docker pull <your_username>/<your_repository>:<your_tag>
+# docker pull <your_username>/<your_repository>:<your_tag>
+docker pull afrzlfa/sshserver:latest
 ```
+
 
 Docker Run
 
