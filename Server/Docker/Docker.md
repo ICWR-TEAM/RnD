@@ -101,6 +101,24 @@ docker ps
 
 ![1722762899067](image/Docker/1722762899067.png)
 
+Login to container ssh
+
+```bash
+ssh root@<ip> -p 222
+```
+
+Running Pyhton Server
+
+```bash
+python3 -m http.server 80
+```
+
+![1722763360732](image/Docker/1722763360732.png)
+
+Open Browser http://203.194.113.245:8080
+
+![1722763428341](image/Docker/1722763428341.png)
+
 ## Create Docker DCT
 
 ```bash
