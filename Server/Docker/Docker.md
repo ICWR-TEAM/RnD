@@ -37,35 +37,61 @@ CMD ["/bin/bash"]
 
 ```
 
+![1722758828042](image/Docker/1722758828042.png)
+
 Build, Enter directory docker
 
 ```bash
-docker build -t image_name .
+docker build -t <image_name> .
 ```
 
+![1722759004064](image/Docker/1722759004064.png)
+
 Change image_name you will
+
+## Create Docker Repository
+
+![1722759114705](image/Docker/1722759114705.png)
+
+Next
+
+![1722759150032](image/Docker/1722759150032.png)
 
 Push Docker
 
 ```bash
 docker login
-docker push <your_username>/<your_repository>:<your_tag>
+
+# docker tag <your_image>:<your_tag> <your_username>/<your_repository>:<your_tag>
+docker tag sshserver:latest afrzlfa/sshserver:latest
+
+# docker push <your_username>/<your_repository>:<your_tag>
+docker push afrzlfa/sshserver:latest
 ```
+
+![1722759558408](image/Docker/1722759558408.png)
 
 Pull Docker
 
 ```bash
 docker login
-docker pull <your_username>/<your_repository>:<your_tag>
+
+# docker pull <your_username>/<your_repository>:<your_tag>
+docker pull afrzlfa/sshserver:latest
 ```
+
+![1722759661712](image/Docker/1722759661712.png)
 
 Docker Run
 
 ```
-# docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 2.0>" <image_name>
+# docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 1.0>" <image_name>
 
-docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="2.0" sshserver
+docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="1.0" sshserver
 ```
+
+![1722759752566](image/Docker/1722759752566.png)
+
 
 ## Create Docker DCT
 
@@ -129,7 +155,12 @@ Push docker
 
 ```bash
 docker login
-docker push <your_username>/<your_repository>
+
+# docker tag <your_image>:<your_tag> <your_username>/<your_repository>:<your_tag>
+docker tag sshserver:latest afrzlfa/sshserver:latest
+
+# docker push <your_username>/<your_repository>:<your_tag>
+docker push afrzlfa/sshserver:latest
 ```
 
 Pull Docker
@@ -137,7 +168,12 @@ Pull Docker
 ```bash
 docker images
 docker rmi -f <image-id>
-docker pull <your_username>/<your_repository>:<your_tag>
+
+docker login
+
+# docker pull <your_username>/<your_repository>:<your_tag>
+docker pull afrzlfa/sshserver:latest
+
 ```
 
 Environment
@@ -153,7 +189,13 @@ Docker Push
 
 ```bash
 docker login
-docker push <your_username>/<your_repository>:<your_tag>
+
+# docker tag <your_image>:<your_tag> <your_username>/<your_repository>:<your_tag>
+docker tag sshserver:latest afrzlfa/sshserver:latest
+
+# docker push <your_username>/<your_repository>:<your_tag>
+docker push afrzlfa/sshserver:latest
+
 ```
 
 Docker Pull
@@ -163,15 +205,13 @@ docker login
 docker pull <your_username>/<your_repository>:<your_tag>
 ```
 
-
 Docker Run
 
 ```
-# docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 2.0>" <image_name>
+# docker run -d -p <docker_host>:<docker_port> --name <container_name> -v <volume_host>:<directory_docker> --memory="<RAM, Example 512m>" --cpus="<CPU Core, Example: 1.0>" <image_name>
 
-docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="2.0" sshserver
+docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="512m" --cpus="1.0" sshserver
 ```
-
 
 ## Access Docker Shell
 
