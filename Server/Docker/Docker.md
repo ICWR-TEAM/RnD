@@ -158,7 +158,6 @@ Next
 
 Docker Command
 
-
 ```bash
 # docker trust key generate <your_username>
 docker trust key generate afrzlfa
@@ -217,8 +216,6 @@ docker pull afrzlfa/ssh-dct:latest
 
 ```
 
-
-
 Environment
 
 ```bash
@@ -273,5 +270,8 @@ docker run -d -p 222:22 -p 8080:80 --name sshdct -v /tmp/:/mnt/ --memory="512m" 
 ```bash
 docker ps
 # docker exec -it <container_id_or_name> /bin/bash
-docker exec -it sshcontainer /bin/bash
+docker exec -it afrzlfa/dct-ssh:latest /bin/bash
+# If success, enter to shell docker container
 ```
+
+![1722768696659](image/Docker/1722768696659.png)
