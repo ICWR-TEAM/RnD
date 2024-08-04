@@ -8,6 +8,8 @@ cd sshserver
 nano Dockerfile
 ```
 
+![1722762225174](image/Docker/1722762225174.png)
+
 Dockerfile
 
 ```plaintext
@@ -30,15 +32,18 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 ```
 
-![1722758828042](image/Docker/1722758828042.png)
+
+
+![1722762255763](image/Docker/1722762255763.png)
 
 Build, Enter directory docker
 
 ```bash
-docker build -t <image_name> .
+# docker build -t <image_name> .
+docker build -t sshserver .
 ```
 
-![1722759004064](image/Docker/1722759004064.png)
+![1722762400481](image/Docker/1722762400481.png)
 
 Change image_name you will
 
@@ -62,18 +67,19 @@ docker tag sshserver:latest afrzlfa/sshserver:latest
 docker push afrzlfa/sshserver:latest
 ```
 
-![1722759558408](image/Docker/1722759558408.png)
+![1722762525103](image/Docker/1722762525103.png)
 
 Pull Docker
 
 ```bash
+# If already exist
+# docker rmi afrzlfa/sshserver:latest
 docker login
-
 # docker pull <your_username>/<your_repository>:<your_tag>
 docker pull afrzlfa/sshserver:latest
 ```
 
-![1722759661712](image/Docker/1722759661712.png)
+![1722762781725](image/Docker/1722762781725.png)
 
 Docker Run
 
@@ -85,8 +91,15 @@ docker run -d -p 222:22 -p 8080:80 --name sshcontainer -v /tmp/:/mnt/ --memory="
 # docker remove sshcontainer
 ```
 
-![1722759752566](image/Docker/1722759752566.png)
+![1722762829341](image/Docker/1722762829341.png)
 
+Check Docker
+
+```bash
+docker ps
+```
+
+![1722762899067](image/Docker/1722762899067.png)
 
 ## Create Docker DCT
 
@@ -212,5 +225,3 @@ docker ps
 # docker exec -it <container_id_or_name> /bin/bash
 docker exec -it sshcontainer /bin/bash
 ```
-
-![1722761504490](image/Docker/1722761504490.png)
