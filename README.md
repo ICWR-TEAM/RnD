@@ -25,4 +25,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For questions, contact:
 
-- [R&D incrustwerush.org](mailto:1ncrustw3rush@gmail.com)
+- [Email][R&D incrustwerush.org](mailto:support@incrustwerush.org)
