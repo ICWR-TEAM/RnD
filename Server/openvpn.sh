@@ -53,7 +53,7 @@ EOF
 echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
 sysctl -p
 
-# === 6. Setup Firewall dengan interface otomatis ===
+# === 6. Setup Firewall dengan NAT dan Filter Lengkap ===
 ufw allow $PORT/$PROTO
 ufw allow OpenSSH
 sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/default/ufw
@@ -61,11 +61,34 @@ sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/defaul
 INTERFACE=$(ip route | grep default | awk '{print $5}')
 
 cat > /etc/ufw/before.rules <<EOF
+# NAT table rules
 *nat
 :POSTROUTING ACCEPT [0:0]
 -A POSTROUTING -s $VPN_SUBNET/24 -o $INTERFACE -j MASQUERADE
 COMMIT
+
+# Filter table rules
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+
+# Allow loopback
+-A INPUT -i lo -j ACCEPT
+
+# Allow established and related connections
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Allow VPN client traffic
+-A FORWARD -s $VPN_SUBNET/24 -j ACCEPT
+
+COMMIT
 EOF
+
+# Ubah default rule outbound biar server bisa akses internet
+ufw default allow outgoing
+ufw default deny incoming
 
 ufw disable
 ufw enable
