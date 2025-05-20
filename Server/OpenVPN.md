@@ -12,7 +12,7 @@ PROTO=udp
 DEV=tun
 
 # === 1. Install OpenVPN & Easy-RSA ===
-apt update && apt install openvpn easy-rsa -y
+apt update && apt install openvpn easy-rsa curl ufw -y
 
 # === 2. Setup Easy-RSA ===
 make-cadir ~/openvpn-ca
@@ -56,17 +56,22 @@ EOF
 echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
 sysctl -p
 
-# === 6. Setup Firewall ===
+# === 6. Setup Firewall dengan interface otomatis ===
 ufw allow $PORT/$PROTO
 ufw allow OpenSSH
 sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/default/ufw
+
+INTERFACE=$(ip route | grep default | awk '{print $5}')
+
 cat > /etc/ufw/before.rules <<EOF
 *nat
 :POSTROUTING ACCEPT [0:0]
--A POSTROUTING -s $VPN_SUBNET/24 -o eth0 -j MASQUERADE
+-A POSTROUTING -s $VPN_SUBNET/24 -o $INTERFACE -j MASQUERADE
 COMMIT
 EOF
-ufw disable && ufw enable
+
+ufw disable
+ufw enable
 
 # === 7. Aktifkan OpenVPN ===
 systemctl enable openvpn@server
@@ -107,30 +112,7 @@ $(cat ~/client-configs/keys/ta.key)
 </tls-auth>
 EOF
 
-echo -e "\n✅ Selesai! File client: ~/client-configs/$CLIENT_NAME.ovpn"
+echo -e "\n✅ Selesai! File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn"
 
-```
-
-Fixing ufw 
-
-```bash
-VPN_SUBNET="10.8.0.0"
-# Setup Firewall
-ufw allow $PORT/$PROTO
-ufw allow OpenSSH
-sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/default/ufw
-
-# Ambil interface default otomatis
-INTERFACE=$(ip route | grep default | awk '{print $5}')
-
-cat > /etc/ufw/before.rules <<EOF
-*nat
-:POSTROUTING ACCEPT [0:0]
--A POSTROUTING -s $VPN_SUBNET/24 -o $INTERFACE -j MASQUERADE
-COMMIT
-EOF
-
-ufw disable
-ufw enable
 
 ```
