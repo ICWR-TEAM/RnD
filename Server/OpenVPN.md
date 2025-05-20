@@ -114,6 +114,7 @@ echo -e "\n✅ Selesai! File client: ~/client-configs/$CLIENT_NAME.ovpn"
 Fixing ufw 
 
 ```bash
+VPN_SUBNET="10.8.0.0"
 # Setup Firewall
 ufw allow $PORT/$PROTO
 ufw allow OpenSSH
