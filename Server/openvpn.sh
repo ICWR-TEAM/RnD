@@ -132,4 +132,4 @@ $(cat ~/client-configs/keys/ta.key)
 </tls-auth>
 EOF
 
-echo -e "\n✅ Selesai! File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn"
+echo -e "\n[+] [Done] [File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn]"
