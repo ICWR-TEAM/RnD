@@ -110,3 +110,26 @@ EOF
 echo -e "\n✅ Selesai! File client: ~/client-configs/$CLIENT_NAME.ovpn"
 
 ```
+
+Fixing ufw 
+
+```bash
+# Setup Firewall
+ufw allow $PORT/$PROTO
+ufw allow OpenSSH
+sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/default/ufw
+
+# Ambil interface default otomatis
+INTERFACE=$(ip route | grep default | awk '{print $5}')
+
+cat > /etc/ufw/before.rules <<EOF
+*nat
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -s $VPN_SUBNET/24 -o $INTERFACE -j MASQUERADE
+COMMIT
+EOF
+
+ufw disable
+ufw enable
+
+```
