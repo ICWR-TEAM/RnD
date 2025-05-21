@@ -4,12 +4,12 @@
 SERVER_IP=$(curl -s ifconfig.me)
 CLIENT_NAME="client"
 VPN_SUBNET="10.8.0.0"
-PORT=1194
-PROTO=udp
+PORT=1337
+PROTO=tcp
 DEV=tun
 
 # === 1. Install OpenVPN & Easy-RSA ===
-apt update && apt install openvpn easy-rsa curl ufw -y
+apt update && apt install openvpn easy-rsa curl -y
 
 # === 2. Setup Easy-RSA ===
 make-cadir ~/openvpn-ca
@@ -53,51 +53,11 @@ EOF
 echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
 sysctl -p
 
-# === 6. Setup Firewall dengan NAT dan Filter Lengkap ===
-ufw allow $PORT/$PROTO
-ufw allow OpenSSH
-sed -i '/^DEFAULT_FORWARD_POLICY=/c\DEFAULT_FORWARD_POLICY="ACCEPT"' /etc/default/ufw
-
-INTERFACE=$(ip route | grep default | awk '{print $5}')
-
-cat > /etc/ufw/before.rules <<EOF
-# NAT table rules
-*nat
-:POSTROUTING ACCEPT [0:0]
--A POSTROUTING -s $VPN_SUBNET/24 -o $INTERFACE -j MASQUERADE
-COMMIT
-
-# Filter table rules
-*filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
-
-# Allow loopback
--A INPUT -i lo -j ACCEPT
-
-# Allow established and related connections
--A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-
-# Allow VPN client traffic
--A FORWARD -s $VPN_SUBNET/24 -j ACCEPT
-
-COMMIT
-EOF
-
-# Ubah default rule outbound biar server bisa akses internet
-ufw default allow outgoing
-ufw default deny incoming
-
-ufw disable
-ufw enable
-
-# === 7. Aktifkan OpenVPN ===
+# === 6. Aktifkan OpenVPN ===
 systemctl enable openvpn@server
 systemctl start openvpn@server
 
-# === 8. Buat file .ovpn untuk client ===
+# === 7. Buat file .ovpn untuk client ===
 mkdir -p ~/client-configs/keys
 cp pki/ca.crt pki/issued/$CLIENT_NAME.crt pki/private/$CLIENT_NAME.key ta.key ~/client-configs/keys/
 
@@ -132,4 +92,4 @@ $(cat ~/client-configs/keys/ta.key)
 </tls-auth>
 EOF
 
-echo -e "\n[+] [Done] [File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn]"
+echo -e "\n[+] [Selesai] [File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn]"
