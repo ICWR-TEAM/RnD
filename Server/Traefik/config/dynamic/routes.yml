@@ -1,0 +1,38 @@
+http:
+  routers:
+    api-v1-router:
+      #rule: "Host(`domain.com`) && PathPrefix(`/api/v1`)"
+      rule: "PathPrefix(`/api/v1`)"
+      service: api-v1-service
+      entryPoints:
+        - web
+      middlewares:
+        - strip-api-v1
+    api-v2-router:
+      #rule: "Host(`domain.com`) && PathPrefix(`/api/v2`)"
+      rule: "PathPrefix(`/api/v2`)"
+      service: api-v2-service
+      entryPoints:
+        - web
+      middlewares:
+        - strip-api-v2
+
+  middlewares:
+    strip-api-v1:
+      stripPrefix:
+        prefixes:
+          - "/api/v1"
+    strip-api-v2:
+      stripPrefix:
+        prefixes:
+          - "/api/v2"
+
+  services:
+    api-v1-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.10.2.206:8000/api/1"
+    api-v2-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.10.2.206:8000/api/2"
