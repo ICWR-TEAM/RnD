@@ -147,5 +147,5 @@ $(cat ~/client-configs/keys/ta.key)
 EOF
 
 # === 11. Selesai ===
-echo -e "\n[✅] OpenVPN berhasil di-setup!"
-echo "[🔑] File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn"
+echo -e "\n[+] OpenVPN berhasil di-setup!"
+echo "[+] File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn"
