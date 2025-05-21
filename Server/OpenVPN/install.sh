@@ -38,14 +38,13 @@ echo | ./easyrsa build-ca nopass
 ./easyrsa gen-req server nopass
 echo yes | ./easyrsa sign-req server server
 ./easyrsa gen-dh
-openvpn --genkey --secret ta.key
 ./easyrsa gen-req $CLIENT_NAME nopass
 echo yes | ./easyrsa sign-req client $CLIENT_NAME
 
 # === 4. Copy file ke direktori OpenVPN ===
 echo "[*] Menyalin sertifikat dan kunci ke /etc/openvpn/server/"
 mkdir -p /etc/openvpn/server
-cp pki/ca.crt pki/private/server.key pki/issued/server.crt pki/dh.pem ta.key /etc/openvpn/server/
+cp pki/ca.crt pki/private/server.key pki/issued/server.crt pki/dh.pem /etc/openvpn/server/
 
 # === 5. Buat file konfigurasi server ===
 echo "[*] Membuat konfigurasi server..."
@@ -60,7 +59,6 @@ dh dh.pem
 server $VPN_SUBNET 255.255.255.0
 ifconfig-pool-persist ipp.txt
 keepalive 10 120
-tls-auth ta.key 0
 auth SHA256
 data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC
 cipher AES-256-CBC
@@ -111,7 +109,7 @@ systemctl start openvpn-server@server
 # === 10. Buat file konfigurasi client (.ovpn) ===
 echo "[*] Membuat file konfigurasi client..."
 mkdir -p ~/client-configs/keys
-cp pki/ca.crt pki/issued/$CLIENT_NAME.crt pki/private/$CLIENT_NAME.key ta.key ~/client-configs/keys/
+cp pki/ca.crt pki/issued/$CLIENT_NAME.crt pki/private/$CLIENT_NAME.key ~/client-configs/keys/
 
 cat > ~/client-configs/$CLIENT_NAME.ovpn <<EOF
 client
@@ -126,7 +124,6 @@ remote-cert-tls server
 auth SHA256
 data-ciphers AES-256-GCM:AES-128-GCM:AES-256-CBC
 cipher AES-256-CBC
-key-direction 1
 verb 3
 
 <ca>
@@ -140,12 +137,8 @@ $(cat ~/client-configs/keys/$CLIENT_NAME.crt)
 <key>
 $(cat ~/client-configs/keys/$CLIENT_NAME.key)
 </key>
-
-<tls-auth>
-$(cat ~/client-configs/keys/ta.key)
-</tls-auth>
 EOF
 
 # === 11. Selesai ===
-echo -e "\n[+] OpenVPN berhasil di-setup!"
+echo -e "\n[+] OpenVPN berhasil di-setup tanpa TLS Auth!"
 echo "[+] File client tersedia di: ~/client-configs/$CLIENT_NAME.ovpn"
