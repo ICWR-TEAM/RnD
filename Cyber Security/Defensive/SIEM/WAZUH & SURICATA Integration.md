@@ -24,7 +24,7 @@ sudo suricata-update
 ```bash
 sudo nano /var/ossec/etc/ossec.conf
 ```
-Add to global decoder and rules in both
+Add to global decoder and rules at the bottom
 ```
   <localfile>
     <log_format>json</log_format>
