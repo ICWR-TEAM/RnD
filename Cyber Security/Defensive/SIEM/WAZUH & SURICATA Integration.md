@@ -24,3 +24,10 @@ sudo suricata-update
 ```bash
 sudo nano /var/ossec/etc/ossec.conf
 ```
+Add to global decoder and rules in both
+```
+  <localfile>
+    <log_format>json</log_format>
+    <location>/var/log/suricata/eve.json</location>
+  </localfile>
+```
