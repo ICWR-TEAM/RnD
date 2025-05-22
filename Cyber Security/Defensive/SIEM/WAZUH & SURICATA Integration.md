@@ -61,3 +61,7 @@ Add to global decoder and rules at the bottom
     <location>/var/log/suricata/eve.json</location>
   </localfile>
 ```
+Restart wazuh-agent
+```bash
+sudo systemctl restart wazuh-agent
+```
