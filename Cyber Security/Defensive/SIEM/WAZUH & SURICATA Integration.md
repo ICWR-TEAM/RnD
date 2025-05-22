@@ -20,7 +20,7 @@ sudo suricata-update enable-source etnetera/aggressive
 sudo suricata-update
 ```
 
-## Integrate to Wazuh Server Inside
+## Integration to Wazuh Server Inside
 
 ### Edit Ossec File
 ```bash
@@ -41,4 +41,23 @@ systemctl restart suricata
 systemctl restart wazuh-manager
 systemctl restart wazuh-indexer
 systemctl restart wazuh-dashboard
+```
+
+## Integration to Wazuh Agent
+
+### Install Wazuh Agent
+```bash
+wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.12.0-1_amd64.deb && sudo WAZUH_MANAGER='xxx.xxx.xxx.xxx' WAZUH_AGENT_NAME='agent' dpkg -i ./wazuh-agent_4.12.0-1_amd64.deb
+```
+
+### Edit Ossec File
+```bash
+sudo nano /var/ossec/etc/ossec/ossec.conf
+```
+Add to global decoder and rules at the bottom
+```
+  <localfile>
+    <log_format>json</log_format>
+    <location>/var/log/suricata/eve.json</location>
+  </localfile>
 ```
