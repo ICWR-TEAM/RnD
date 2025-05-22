@@ -36,11 +36,11 @@ Add to global decoder and rules at the bottom
 
 ### Restart Service
 ```bash
-suricata-update
-systemctl restart suricata
-systemctl restart wazuh-manager
-systemctl restart wazuh-indexer
-systemctl restart wazuh-dashboard
+sudo suricata-update
+sudo systemctl restart suricata
+sudo systemctl restart wazuh-manager
+sudo systemctl restart wazuh-indexer
+sudo systemctl restart wazuh-dashboard
 ```
 
 ## Integration to Wazuh Agent
