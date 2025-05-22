@@ -20,7 +20,7 @@ sudo suricata-update enable-source etnetera/aggressive
 sudo suricata-update
 ```
 
-## Install Wazuh Server Inside
+## Integrate to Wazuh Server Inside
 
 ### Edit Ossec File
 ```bash
