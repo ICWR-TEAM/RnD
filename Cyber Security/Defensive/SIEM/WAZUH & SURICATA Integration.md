@@ -1,6 +1,6 @@
 # WAZUH & SURICATA Integration
 
-### Install SURICATA
+## Install SURICATA
 ```bash
 sudo add-apt-repository ppa:oisf/suricata-stable
 sudo apt-get update
@@ -20,6 +20,8 @@ sudo suricata-update enable-source etnetera/aggressive
 sudo suricata-update
 ```
 
+## Install Wazuh Server Inside
+
 ### Edit Ossec File
 ```bash
 sudo nano /var/ossec/etc/ossec.conf
@@ -30,4 +32,13 @@ Add to global decoder and rules at the bottom
     <log_format>json</log_format>
     <location>/var/log/suricata/eve.json</location>
   </localfile>
+```
+
+### Restart Service
+```bash
+suricata-update
+systemctl restart suricata
+systemctl restart wazuh-manager
+systemctl restart wazuh-indexer
+systemctl restart wazuh-dashboard
 ```
