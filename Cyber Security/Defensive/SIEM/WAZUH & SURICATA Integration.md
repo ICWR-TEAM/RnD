@@ -9,13 +9,13 @@ sudo apt install suricata
 
 ### Edit Suricata Config
 ```bash
-nano /etc/suricata/suricata.yaml
+sudo nano /etc/suricata/suricata.yaml
 ```
 Adjust to network settings, edit variable HOME_NET to your network. Edit interface `af-packet` & `pcap`
 
 ### Update List Source
 ```bash
-suricata-update list-sources
-suricata-update enable-source etnetera/aggressive
-suricata-update
+sudo suricata-update list-sources
+sudo suricata-update enable-source etnetera/aggressive
+sudo suricata-update
 ```
