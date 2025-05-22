@@ -16,4 +16,6 @@ Adjust to network settings, edit variable HOME_NET to your network. Edit interfa
 ### Update List Source
 ```bash
 suricata-update list-sources
+suricata-update enable-source etnetera/aggressive
+suricata-update
 ```
