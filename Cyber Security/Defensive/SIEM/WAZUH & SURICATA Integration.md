@@ -19,3 +19,8 @@ sudo suricata-update list-sources
 sudo suricata-update enable-source etnetera/aggressive
 sudo suricata-update
 ```
+
+### Edit Ossec File
+```bash
+sudo nano /var/ossec/etc/ossec.conf
+```
