@@ -4,13 +4,13 @@
 #!/bin/bash
 
 usage() {
-  echo "Usage: $0 --url <target> --protocol <http|https>"
+  echo "Usage: $0 --host <target> --protocol <http|https>"
   exit 1
 }
 
 while [[ "$#" -gt 0 ]]; do
   case "$1" in
-    -u|--url) TARGET="$2"; shift ;;
+    -x|--host) TARGET="$2"; shift ;;
     -p|--protocol) PROTOCOL="$2"; shift ;;
     *) usage ;;
   esac
@@ -42,5 +42,4 @@ fi
 if command_exists nikto; then
   nikto -h "$TARGET"
 fi
-
 ```
