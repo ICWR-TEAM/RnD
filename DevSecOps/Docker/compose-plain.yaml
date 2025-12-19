@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  linux:
+    image: debian:latest
+    platform: linux/amd64
+    container_name: linux
+    volumes:
+      - ./result:/result
+    command: "tail -f /dev/null"
+    tty: true
+    stdin_open: true
+    deploy:
+      resources:
+        limits:
+          memory: 512mb
+          cpus: "1.0"
